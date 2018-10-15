@@ -1,0 +1,91 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    ldap_uri: ldap:///
+    admin_dn: cn=admin,dc=example,dc=org
+    admin_pw: admin
+
+  tasks:
+  - name: Install python-ldap
+    pip:
+      name: python-ldap
+
+  - name: Create the LDAP top nodes
+    ldap_entry:
+      dn: "{{item}}"
+      objectClass: organizationalUnit
+      server_uri: "{{ ldap_uri }}"
+      bind_dn: "{{ admin_dn }}"
+      bind_pw: "{{ admin_pw }}"
+    loop:
+      - ou=people,dc=example,dc=org
+      - ou=groups,dc=example,dc=org
+
+  - name: Create the LDAP entries for Jack Sparrow and Hector Barbossa
+    ldap_entry:
+      dn: "{{ item.dn }}"
+      server_uri: "{{ ldap_uri }}"
+      bind_dn: "{{ admin_dn }}"
+      bind_pw: "{{ admin_pw }}"
+      objectClass:
+      - inetOrgPerson
+      - posixAccount
+      attributes:
+        description: "{{ item.description }}"
+        cn: "{{ item.cn }}"
+        sn: "{{ item.sn }}"
+        uid: "{{ item.uid }}"
+        gidNumber: 5000
+        uidNumber: "{{ item.uidNumber }}"
+        loginShell: /bin/bash
+        homeDirectory: "{{ item.homeDirectory }}"
+    loop:
+      - {dn: "uid=jacksp,ou=people,dc=example,dc=org", description: "LDAP user for Jack Sparrow", cn: "Jack", sn: "Sparrow", uid: "jacksp", uidNumber: 10000, homeDirectory: "/home/jacksp"}
+      - {dn: "uid=hectorb,ou=people,dc=example,dc=org", description: "LDAP user for Hector Barbossa", cn: "Hector", sn: "Barbossa", uid: "hectorb", uidNumber: 10001, homeDirectory: "/home/hectorb"}
+        
+  - name: Add a password to Jack Sparrow
+    ldap_attr:
+      dn: uid=jacksp,ou=people,dc=example,dc=org
+      server_uri: "{{ ldap_uri }}"
+      bind_dn: "{{ admin_dn }}"
+      bind_pw: "{{ admin_pw }}"
+      name: userPassword
+      values: black_pearl
+      state: exact
+
+  - name: Create LDAP entries for groups and assign Jack Sparrow to them
+    ldap_entry:
+      dn: "{{item}}"
+      server_uri: "{{ ldap_uri }}"
+      bind_dn: "{{ admin_dn }}"
+      bind_pw: "{{ admin_pw }}"
+      objectClass:
+      - groupOfUniqueNames
+      attributes:
+        uniqueMember: uid=jacksp,ou=people,dc=example,dc=org
+    loop:
+      - cn=group1,ou=groups,dc=example,dc=org
+      - cn=group2,ou=groups,dc=example,dc=org
+
+  - name: Add Hector Barbossa to group2
+    ldap_attr:
+      dn: cn=group2,ou=groups,dc=example,dc=org
+      server_uri: "{{ ldap_uri }}"
+      bind_dn: "{{ admin_dn }}"
+      bind_pw: "{{ admin_pw }}"
+      name: uniqueMember
+      values: uid=hectorb,ou=people,dc=example,dc=org
+      state: present
+
+  - name: Remove Jack Sparrow from group2
+    ldap_attr:
+      dn: cn=group2,ou=groups,dc=example,dc=org
+      server_uri: "{{ ldap_uri }}"
+      bind_dn: "{{ admin_dn }}"
+      bind_pw: "{{ admin_pw }}"
+      name: uniqueMember
+      values: uid=jacksp,ou=people,dc=example,dc=org
+      state: absent
