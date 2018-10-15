@@ -12,6 +12,6 @@ LDAP Ansible modules integration test.
 
 ## Pull requests tested
 
-- ansible/ansible#43620
-- ansible/ansible#45778
-- ansible/ansible#46818
+- [#43620](https://github.com/ansible/ansible#43620)
+- [#45778](https://github.com/ansible/ansible#45778)
+- [#46818](https://github.com/ansible/ansible#46818)
