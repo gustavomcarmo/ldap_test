@@ -1,0 +1,26 @@
+---
+language: python
+python: "3.6"
+
+sudo: required
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+    - python-pip
+    - ldap-utils
+
+install:
+  - pip install ansible
+
+before_script:
+  - docker run --name openldap -d -p 389:389 osixia/openldap:1.2.1
+
+script:
+  - ansible-playbook test.yml -e "ansible_python_interpreter=$(which python3)"
+
+after_script:
+  - docker stop openldap && docker rm openldap
