@@ -21,6 +21,7 @@ before_script:
 
 script:
   - ansible-playbook test.yml -e "ansible_python_interpreter=$(which python3)"
+  - ./validate.sh
 
 after_script:
   - docker stop openldap && docker rm openldap
