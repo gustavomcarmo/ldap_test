@@ -20,7 +20,7 @@ before_script:
   - docker run --name openldap -d -p 389:389 osixia/openldap:1.2.1
 
 script:
-  - ansible-playbook test.yml -e "ansible_python_interpreter=$(which python3)"
+  - ansible-playbook test.yml -i hosts -e "ansible_python_interpreter=$(which python3)"
   - ./validate.sh
 
 after_script:
