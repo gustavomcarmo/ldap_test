@@ -10,7 +10,12 @@ LDAP Ansible modules integration test.
 - [ldap-utils](https://wiki.debian.org/LDAP/LDAPUtils)
 - [Ansible](https://www.ansible.com)
 
-## Pull requests tested
+## Modules
+
+- [ldap_entry](https://docs.ansible.com/ansible/latest/modules/ldap_entry_module.html)
+- [ldap_attr](https://docs.ansible.com/ansible/latest/modules/ldap_attr_module.html)
+
+## Pull requests
 
 - [#43620](https://github.com/ansible/ansible/pull/43620)
 - [#45778](https://github.com/ansible/ansible/pull/45778)
