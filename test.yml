@@ -56,15 +56,6 @@
       values: black_pearl
       state: exact
 
-  - name: Check Jack Sparrow password
-    ldap_passwd:
-      dn: uid=jacksp,ou=people,dc=example,dc=org
-      server_uri: "{{ ldap_uri }}"
-      bind_dn: "{{ admin_dn }}"
-      bind_pw: "{{ admin_pw }}"
-      passwd: black_pearl
-    check_mode: yes
-
   - name: Create LDAP entries for groups and assign Jack Sparrow to them
     ldap_entry:
       dn: "{{item}}"
