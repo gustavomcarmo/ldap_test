@@ -21,8 +21,8 @@
     bind_dn: "{{ admin_dn }}"
     bind_pw: "{{ admin_pw }}"
     objectClass:
-    - inetOrgPerson
-    - posixAccount
+      - inetOrgPerson
+      - posixAccount
     attributes:
       description: "{{ item.description }}"
       cn: "{{ item.cn }}"
@@ -35,7 +35,7 @@
   loop:
     - {dn: "uid=jacksp,ou=people,dc=example,dc=org", description: "LDAP user for Jack Sparrow", cn: "Jack", sn: "Sparrow", uid: "jacksp", uidNumber: 10000, homeDirectory: "/home/jacksp"}
     - {dn: "uid=hectorb,ou=people,dc=example,dc=org", description: "LDAP user for Hector Barbossa", cn: "Hector", sn: "Barbossa", uid: "hectorb", uidNumber: 10001, homeDirectory: "/home/hectorb"}
-      
+
 - name: Add a password to Jack Sparrow
   ldap_attr:
     dn: uid=jacksp,ou=people,dc=example,dc=org
@@ -53,7 +53,7 @@
     bind_dn: "{{ admin_dn }}"
     bind_pw: "{{ admin_pw }}"
     objectClass:
-    - groupOfUniqueNames
+      - groupOfUniqueNames
     attributes:
       uniqueMember: uid=jacksp,ou=people,dc=example,dc=org
   loop:

@@ -1,3 +1,4 @@
+---
 ldap_uri: ldap:///
 admin_dn: cn=admin,dc=example,dc=org
 admin_pw: admin

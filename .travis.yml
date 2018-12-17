@@ -10,8 +10,8 @@ services:
 addons:
   apt:
     packages:
-    - python-pip
-    - ldap-utils
+      - python-pip
+      - ldap-utils
 
 install:
   - pip install ansible
