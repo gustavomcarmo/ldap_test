@@ -12,7 +12,7 @@ do
     sleep 2
 done
 
-ansible-playbook test.yml -e "ansible_python_interpreter=$(which python3)"
+ansible-playbook tests/test.yml -i tests/inventory -e "ansible_python_interpreter=$(which python3)"
 
 ./validate.sh
 status=$?

@@ -4,6 +4,8 @@
 
 LDAP Ansible modules integration test.
 
+For testing, just run `./test.sh`.
+
 ## Requirements
 
 - [Docker](https://www.docker.com)
