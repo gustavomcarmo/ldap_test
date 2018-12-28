@@ -14,14 +14,7 @@ addons:
       - ldap-utils
 
 install:
-  - pip install ansible
-
-before_script:
-  - docker run --name openldap -d -p 389:389 osixia/openldap:1.2.1
+  - pip install -r requirements.txt
 
 script:
-  - ansible-playbook tests/test.yml -i tests/inventory -e "ansible_python_interpreter=$(which python3)"
-  - ./validate.sh
-
-after_script:
-  - docker stop openldap && docker rm openldap
+  - molecule test

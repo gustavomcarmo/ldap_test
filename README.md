@@ -6,6 +6,16 @@ LDAP Ansible modules integration test.
 
 For testing, just run `./test.sh`.
 
+## Testing with Molecule
+
+Alternatively, you can use [Molecule](https://molecule.readthedocs.io). Inside your [Python virtual environment](https://docs.python.org/3/tutorial/venv.html), run:
+
+`pip install -r requirements.txt`
+
+And then:
+
+`molecule test`
+
 ## Requirements
 
 - [Docker](https://www.docker.com)
